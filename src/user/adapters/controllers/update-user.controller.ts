@@ -1,8 +1,8 @@
 import { Body, Controller, Param, ParseUUIDPipe, Put } from '@nestjs/common';
 import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { UpdateUserDto } from '../application/dto';
-import { UpdateUserUsecase } from '../application/update-user.usecase';
-import { User } from '../application/user.entity';
+import { UpdateUserDto } from '../../application/dto';
+import { UpdateUserUsecase } from '../../application/update-user.usecase';
+import { User } from '../../application/user.entity';
 
 @ApiTags('Users')
 @Controller()

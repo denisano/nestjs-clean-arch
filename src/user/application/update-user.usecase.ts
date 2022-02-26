@@ -1,19 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { UserRepository } from './boundaries/user.repository';
 import { UpdateUserDto } from './dto';
 import { UserDto } from './dto/user.dto';
-import { UserRepository } from './user.repository';
 
 @Injectable()
 export class UpdateUserUsecase {
     constructor(private readonly userRepository: UserRepository) {}
 
-    async execute(id: string, dto: UpdateUserDto): Promise<UserDto> {
-        const entity = await this.userRepository.findOne(id);
-        entity.name = dto.name;
+    async execute(id: string, updateUserDto: UpdateUserDto): Promise<UserDto> {
+        let user = await this.userRepository.findById(id);
+        if (user == null) {
+            //TODO: it is infrastructure layer class, not application. Fix it.
+            throw new NotFoundException(`User ${id} Not Found`);
+        }
 
-        await this.userRepository.persistAndFlush(entity);
+        const userFromDto = UpdateUserDto.entityFromDto(updateUserDto, user);
+        user = await this.userRepository.save(userFromDto);
 
-        console.log(entity);
-        return UserDto.dtoFromEntity(entity);
+        const userDto = UserDto.dtoFromEntity(user);
+        return userDto;
     }
 }

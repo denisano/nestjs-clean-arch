@@ -1,9 +1,7 @@
-import { Entity, EntityRepositoryType, PrimaryKey, Property } from '@mikro-orm/core';
-import { UserRepository } from './user.repository';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-@Entity({ customRepository: () => UserRepository })
+@Entity()
 export class User {
-    [EntityRepositoryType]?: UserRepository;
     /**
      * User ID (UUID v4)
      *
@@ -27,6 +25,19 @@ export class User {
      */
     @Property({ length: 128, nullable: false, comment: 'User email' })
     email: string;
+
+    /**
+     * Flag: User ready to play now
+     *
+     * @example true
+     */
+    @Property({
+        name: 'is_ready_to_play',
+        default: true,
+        nullable: false,
+        comment: 'Flag: User ready to play now',
+    })
+    isReadyToPlay: boolean;
 
     /**
      * Entity create datetime

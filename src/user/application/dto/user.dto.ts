@@ -19,6 +19,12 @@ export class UserDto {
     })
     email: string;
 
+    @ApiProperty({
+        description: 'Is user ready to play?',
+        example: true,
+    })
+    isReadyToPlay: boolean;
+
     @ApiProperty()
     createdAt: Date;
 
@@ -30,6 +36,7 @@ export class UserDto {
         dto.id = entity.id;
         dto.name = entity.name;
         dto.email = entity.email;
+        dto.isReadyToPlay = entity.isReadyToPlay;
         dto.createdAt = entity.createdAt;
         dto.updatedAt = entity.updatedAt;
 

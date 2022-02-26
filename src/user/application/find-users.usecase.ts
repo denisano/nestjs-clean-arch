@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { UserRepository } from './boundaries/user.repository';
+import { SearchUsersDto } from './dto/search-users.dto';
 import { UserDto } from './dto/user.dto';
-import { User } from './user.entity';
-import { UserRepository } from './user.repository';
 
 @Injectable()
 export class FindUsersUsecase {
     constructor(private readonly userRepository: UserRepository) {}
 
-    async execute(): Promise<UserDto[]> {
-        const users = await this.userRepository.findAll();
-        return users.map(UserDto.dtoFromEntity);
+    async execute(searchParams: SearchUsersDto): Promise<UserDto[]> {
+        const users = await this.userRepository.find(searchParams);
+
+        const usersDtos = users.map(UserDto.dtoFromEntity);
+
+        return usersDtos;
     }
 }

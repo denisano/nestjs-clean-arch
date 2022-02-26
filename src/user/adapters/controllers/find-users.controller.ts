@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { UserDto } from '../application/dto/user.dto';
-import { FindUsersUsecase } from '../application/find-users.usecase';
+import { SearchUsersDto } from 'src/user/application/dto/search-users.dto';
+import { UserDto } from '../../application/dto/user.dto';
+import { FindUsersUsecase } from '../../application/find-users.usecase';
 
 @ApiTags('Users')
 @Controller()
@@ -14,7 +15,8 @@ export class FindUsersController {
     })
     @Get('users')
     async handle(): Promise<UserDto[]> {
-        const users = await this.findUsersUsecase.execute();
+        const searchUsersParams = new SearchUsersDto();
+        const users = await this.findUsersUsecase.execute(searchUsersParams);
         return users;
     }
 }

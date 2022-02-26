@@ -14,10 +14,17 @@ export class UpdateUserDto {
     })
     readonly email: string;
 
+    @ApiProperty({
+        description: 'Is user ready to play?',
+        example: true,
+    })
+    isReadyToPlay: boolean;
+
     static entityFromDto(dto: UpdateUserDto, entity?: User): User {
         entity ??= new User();
         entity.name = dto.name ?? entity.name;
         entity.email = dto.email ?? entity.email;
+        entity.isReadyToPlay = dto.isReadyToPlay ?? entity.isReadyToPlay;
 
         return entity;
     }
