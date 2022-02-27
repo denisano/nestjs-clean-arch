@@ -77,12 +77,18 @@ To understand the principles and structure just see the famous Uncle Bob's Clean
 
 ## Why
 
-As result the principles provide the following characteristics:
+I like principles of Clean Architecture. And I like NestJS because of it modular architecture, quality, support and community, rich functionality and documentation. 
 
-  1. Platform agnostic
+During development a startup project with NestJS I tried to follow Clean Architecture principles and terminology. As result it has given yet another way to build application with NestJS. 
+
+It is working fine for me and I decide to  build ready to use boilerplate.
+
+The approach provides the following characteristics for you application:
+
+  1. Modular and layered simple clean architecture
   2. Data layer (ORM/DB/Query Builder) agnostic 
   3. All other 3rd party services agnostic
-
+  4. Platform agnostic (in theory)
 
 ## Roadmap
 
