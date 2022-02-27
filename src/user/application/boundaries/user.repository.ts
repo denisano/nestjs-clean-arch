@@ -1,5 +1,5 @@
 import { SearchUsersDto } from '../dto/search-users.dto';
-import { User } from '../user.entity';
+import { User } from '../../domain/entities/user';
 
 export abstract class UserRepository {
     abstract findById(id: string): Promise<User>;

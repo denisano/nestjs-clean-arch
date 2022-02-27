@@ -35,3 +35,13 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Private data, configs
+*.config.ts
+/etc
+/var
+/.dev
+.env
+.env.production
+.env.development
+.env.test

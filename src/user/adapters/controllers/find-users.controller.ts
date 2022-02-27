@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { SearchUsersDto } from 'src/user/application/dto/search-users.dto';
+import { SearchUsersDto } from '../../application/dto/search-users.dto';
 import { UserDto } from '../../application/dto/user.dto';
 import { FindUsersUsecase } from '../../application/find-users.usecase';
 

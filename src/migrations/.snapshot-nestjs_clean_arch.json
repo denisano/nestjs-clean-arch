@@ -36,6 +36,17 @@
           "comment": "User email",
           "mappedType": "string"
         },
+        "is_ready_to_play": {
+          "name": "is_ready_to_play",
+          "type": "tinyint(1)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "true",
+          "comment": "Flag: User ready to play now",
+          "mappedType": "boolean"
+        },
         "created_at": {
           "name": "created_at",
           "type": "datetime",

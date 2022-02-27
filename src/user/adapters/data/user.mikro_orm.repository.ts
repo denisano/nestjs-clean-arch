@@ -1,27 +1,28 @@
 import { EntityRepository } from '@mikro-orm/mysql';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { UserRepository } from 'src/user/application/boundaries/user.repository';
-import { SearchUsersDto } from 'src/user/application/dto/search-users.dto';
-import { User } from 'src/user/application/user.entity';
-import { v4 as uuidv4 } from 'uuid';
+import { UserRepository } from '../../application/boundaries/user.repository';
+import { SearchUsersDto } from '../../application/dto/search-users.dto';
+import { User } from '../../domain/entities/user';
+
+import { UserMikroOrm } from './user.mikro_orm.entity';
 
 export class UserMikroOrmRepository extends UserRepository {
     constructor(
-        @InjectRepository(User)
-        private readonly ormRepo: EntityRepository<User>,
+        @InjectRepository(UserMikroOrm)
+        private readonly ormRepo: EntityRepository<UserMikroOrm>,
     ) {
         super();
     }
 
-    findById(id: string): Promise<User> {
-        return this.ormRepo.findOne(id);
+    async findById(id: string): Promise<User> {
+        return (await this.ormRepo.findOne(id)).toDomainEntity();
     }
 
-    findByEmail(email: string): Promise<User> {
-        return this.ormRepo.findOne({ email: email });
+    async findByEmail(email: string): Promise<User> {
+        return (await this.ormRepo.findOne({ email: email })).toDomainEntity();
     }
 
-    find(searchParams: SearchUsersDto): Promise<User[]> {
+    async find(searchParams: SearchUsersDto): Promise<User[]> {
         const qb = this.ormRepo.createQueryBuilder();
 
         if (searchParams.userIds) {
@@ -38,16 +39,22 @@ export class UserMikroOrmRepository extends UserRepository {
 
         qb.orderBy({ createdAt: 'desc' });
 
-        const items = qb.getResultList();
+        const items = (await qb.getResultList()).map((e) => e.toDomainEntity());
 
         return items;
     }
 
-    save(entity: User): Promise<User> {
-        return this.ormRepo.persistAndFlush(entity).then(() => entity);
+    async save(entity: User): Promise<User> {
+        const entityOrm = UserMikroOrm.fromDomainEntity(entity);
+        await this.ormRepo.persistAndFlush(entityOrm);
+        const entityRes = entityOrm.toDomainEntity();
+        return entityRes;
     }
 
     async remove(entity: User): Promise<User> {
-        return this.ormRepo.removeAndFlush(entity).then(() => entity);
+        const entityOrm = UserMikroOrm.fromDomainEntity(entity);
+        await this.ormRepo.removeAndFlush(entityOrm);
+        const entityRes = entityOrm.toDomainEntity();
+        return entityRes;
     }
 }

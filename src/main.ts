@@ -7,7 +7,7 @@ async function bootstrap() {
 
     // Configure api doc
     const config = new DocumentBuilder()
-        .setTitle('Nestjs-Mikro-Clean-Arch API')
+        .setTitle('Nestjs-Clean-Arch boilerplate server')
         .addTag('Users', 'User related API')
         .build();
     const document = SwaggerModule.createDocument(app, config);

@@ -1,14 +1,17 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { BaseEntity, Entity, PrimaryKey, Property, wrap } from '@mikro-orm/core';
+import { v4 as uuidv4 } from 'uuid';
+import { User } from '../../domain/entities/user';
 
-@Entity()
-export class User {
+@Entity({ tableName: 'user' })
+export class UserMikroOrm extends BaseEntity<UserMikroOrm, 'id'> {
     /**
      * User ID (UUID v4)
      *
      * @example '3422b448-2460-4fd2-9183-8000de6f8343'
      */
     @PrimaryKey({
-        length: 36,
+        type: 'uuid',
+        onCreate: () => uuidv4(),
         nullable: false,
         comment: 'User ID (UUID v4)',
     })
@@ -65,4 +68,14 @@ export class User {
         comment: 'Entity update datetime',
     })
     updatedAt: Date;
+
+    toDomainEntity(): User {
+        const entity = new User();
+        return Object.assign(entity, this);
+    }
+
+    static fromDomainEntity(entity: User): UserMikroOrm {
+        const entityOrm = new UserMikroOrm();
+        return Object.assign(entityOrm, entity);
+    }
 }
