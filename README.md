@@ -40,6 +40,14 @@ cp src/mikro-orm.config.ts.example src/mikro-orm.config.ts
 
 ### 3. Install packages
 
+With npm:
+
+```sh
+npm install
+```
+
+With yarn:
+
 ```sh
 yarn install
 ```
@@ -47,7 +55,7 @@ yarn install
 ### 4. Run
 
 ```sh
-yarn start
+nest start
 ```
 
 ### 5. Run Mikro-ORM migrations
